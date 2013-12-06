@@ -4,11 +4,12 @@ class EventStream<T extends Event> extends Stream<T> {
 
   final EventDispatcher _target;
   final String _eventType;
+  final int _priority;
 
   List<EventStreamSubscription> _subscriptions = [];
   int _capturingSubscriptionCount = 0;
 
-  EventStream._internal(this._target, this._eventType);
+  EventStream._internal(this._target, this._eventType, this._priority);
 
   //-----------------------------------------------------------------------------------------------
 
@@ -19,8 +20,11 @@ class EventStream<T extends Event> extends Stream<T> {
     void onCancel(StreamSubscription subscription)}) => this;
 
   bool get hasSubscriptions => _subscriptions.length > 0;
+  List<EventStreamSubscription> get subscriptions => _subscriptions;
 
   EventDispatcher get target => _target;
+  String get eventType => _eventType;
+  int get priority => _priority;
 
   //-----------------------------------------------------------------------------------------------
 

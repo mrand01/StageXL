@@ -18,6 +18,7 @@ class EventStreamSubscription<T extends Event> extends StreamSubscription<T> {
   bool get isPaused => _pauseCount > 0;
   bool get isCanceled => _canceled;
   bool get isCapturing => _captures;
+  EventListener<T> get eventListener => _eventListener;
 
   EventStream<T> get eventStream => _eventStream;
 
