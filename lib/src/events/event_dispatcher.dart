@@ -16,7 +16,7 @@ class EventDispatcher {
 
     var eventStreamList = eventStreams[eventType];
     if (eventStreamList == null) {
-      eventStreamList = new List();//
+      eventStreamList = new List();
       eventStreams[eventType] = eventStreamList;
     }
     
@@ -58,8 +58,8 @@ class EventDispatcher {
     var eventStreamList = eventStreams[eventType];
     if (eventStreamList == null) return;
     
-    int eventStreamlength = eventStreamList.length;
-    for (int i = 0; i < eventStreamlength; i++) {
+    int eventStreamLength = eventStreamList.length;
+    for (int i = 0; i < eventStreamLength; i++) {
       EventStream eventStream = eventStreamList[i];
       
       if (eventStream.hasSubscriptions) {
@@ -74,11 +74,22 @@ class EventDispatcher {
     }
     
     eventStreamList.removeWhere((EventStream s) => s == null);
-    //this.on(eventType).cancelSubscription(eventListener, useCapture);
   }
 
   void removeEventListeners(String eventType) {
-    this.on(eventType).cancelSubscriptions();
+    var eventStreams = _eventStreams;
+    if (eventStreams == null) return;
+    var eventStreamList = eventStreams[eventType];
+    if (eventStreamList == null) return;
+    
+    int eventStreamLength = eventStreamList.length;
+    for (int i = 0; i < eventStreamLength; i++) {
+      EventStream eventStream = eventStreamList[i];
+      
+      if (eventStream.hasSubscriptions) {
+        eventStream.cancelSubscriptions();
+      }
+    }
   }
 
   void dispatchEvent(Event event) {
